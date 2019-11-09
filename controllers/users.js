@@ -49,6 +49,12 @@ module.exports.login = (req, res) => {
     });
 };
 
+
+
+/**
+ * Здесь надо определить язык браучера и сгенерировать пользователя
+ * 
+ */
 module.exports.createUser = (req, res) => {
   const {
     email,
@@ -71,21 +77,7 @@ module.exports.createUser = (req, res) => {
     .catch((err) => res.status(400).send({ message: err.message }));
 };
 
-module.exports.patchAccAva = (req, res) => {
-  const { avatar } = req.body;
 
-  User.findById(req.user._id)
-    .then((user) => {
-      if (user._id == req.user._id) {
-        User.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
-          .then((user) => res.send({ data: user }))
-          .catch((err) => res.status(500).send({ message: err.message }));
-      } else {
-        res.status(401).send({ message: 'No permissions' });
-      }
-    })
-    .catch((err) => res.status(500).send({ message: err.message }));
-};
 
 module.exports.patchAcc = (req, res) => {
   const { name, about } = req.body;

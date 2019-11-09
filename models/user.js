@@ -3,42 +3,39 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    validate: {
-      validator: (v) => validator.isEmail(v),
-      message: 'Неправильный формат почты',
-    },
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 8,
-    select: false,
-  },
+
   name: {
     type: String,
     minlength: 2,
     maxlength: 30,
+    //   required: true,
+  },
+  key: {
+    type: String,
+    // minlength: 2,
+    // maxlength: 30,
     required: true,
   },
   about: {
     type: String,
     minlength: 2,
     maxlength: 30,
+    //  required: true,
+  },
+  lang: {
+    type: String,
+    minlength: 2,
+    maxlength: 5,
     required: true,
   },
-  avatar: {
+  ip: {
     type: String,
-    validate: {
-      validator(v) {
-        return validator.isURL(v);
-      },
-      message: (props) => `${props.value} Check link pls !`,
-    },
+    minlength: 11,
+    maxlength: 20,
     required: true,
+  },
+  question: {
+    type: Object,
   },
 });
 

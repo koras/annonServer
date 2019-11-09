@@ -16,7 +16,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 /* eslint-disable quotes */
-mongoose.connect('mongodb://localhost:27017/mestodb', {
+mongoose.connect('mongodb://localhost:27017/questionsdb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
