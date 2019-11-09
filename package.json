@@ -1,0 +1,38 @@
+{
+  "name": "yandex-back-end",
+  "version": "1.0.0",
+  "description": "Educational project in the specialty of back-end.",
+  "main": "index.js",
+  "scripts": {
+    "editorconfig": "editorconfig-cli",
+    "lint": "./node_modules/eslint/bin/eslint.js app.js routes",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.0.0",
+    "helmet": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.5",
+    "validator": "^12.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.19.3"
+  },
+  "editorconfig-cli": [
+    "*.json",
+    "*.js",
+    "*.html",
+    "*.svg"
+  ]
+}
