@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const Questions = require('../models/questions');
 const ipAddress = require("ip");
 
 
@@ -81,28 +82,9 @@ module.exports.createUser = (req, res) => {
           });
       }
       res.send({ data: user });
-    }).then((user) => {
-      //  console.log('ip', ip);
-      //  console.log('ser', user);
-      //  osLocale().then((user) => console.log(user));
-      //    res.status(404).send({ message: 'Такого пользователя не существует' });
-
-
-
-
     })
     .catch((err) => res.status(500).send({ message: `create error :  ${err}` }));
-
-
-
-
 };
-
-
-
-
-
-
 
 
 module.exports.patchAcc = (req, res) => {

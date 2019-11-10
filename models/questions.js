@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const answers = new mongoose.Schema({
+const questionsSchema = new mongoose.Schema({
 
   name: {
     type: String,
@@ -17,12 +17,12 @@ const answers = new mongoose.Schema({
   },
   body: {
     type: String,
-    validate: {
-      validator(v) {
-        return validator.isURL(v);
-      },
-      message: (props) => `${props.value} Check link pls !`,
-    },
+    // validate: {
+    //   validator(v) {
+    //     return validator.isURL(v);
+    //  },
+    //  message: (props) => `${props.value} Check link pls !`,
+    //  },
     required: true,
   },
 
@@ -42,4 +42,4 @@ const answers = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('questions', cardSchema);
+module.exports = mongoose.model('questions', questionsSchema);

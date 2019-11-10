@@ -1,63 +1,44 @@
-const Card = require('../models/answers');
+const Questions = require('../models/questions');
+const osLocale = require('os-locale');
 
-module.exports.getCards = (req, res) => {
-  Card.find({})
+
+/**
+ * Добавление вопроса
+ * 
+ */
+module.exports.createQuestion = (req, res) => {
+
+  const owner = req.body._id;
+  const { name, body } = req.body;
+  return osLocale()
+    .then(lang => { return { lang: lang }; })
+    .then(dataParam => {
+
+      dataParam['name'] = name;
+      dataParam['body'] = body;
+      dataParam['owner'] = owner;
+
+      return Questions.create(dataParam)
+        .then((question) => res.status(200)
+          .send(question));
+    });
+
+
+  // Questions.create({ name, link, owner })
+  //   .then((card) => res.status(201).send({ data: card }))
+  //   .catch((err) => res.status(400).send({ message: err.message }));
+
+
+};
+
+
+
+module.exports.getQuestions = (req, res) => {
+  Questions.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => res.status(500)
+      .send({ message: err.message }));
 };
 
-module.exports.createCard = (req, res) => {
-  const owner = req.user._id;
-  const { name, link } = req.body;
-
-  Card.create({ name, link, owner })
-    .then((card) => res.status(201).send({ data: card }))
-    .catch((err) => res.status(400).send({ message: err.message }));
-};
-
-module.exports.removeCard = (req, res) => {
-  const { id } = req.params;
-
-  Card.findById(id)
-    .then((card) => {
-      if (card === null) {
-        res.status(401).send({ message: 'Havent card, check id pls' });
-      }
-
-      if (card.owner._id == req.user._id) {
-        Card.findOneAndRemove(id)
-          .then((card) => res.status(200).send({ message: 'Success delete' }))
-          .catch((err) => res.status(500).send({ message: err.message }));
-      } else {
-        res.status(403).send({ message: 'No permissions' });
-      }
-    })
-
-    .catch((err) => res.status(500).send({ message: err.message }));
-};
-
-module.exports.createLike = (req, res) => {
-  const owner = req.user._id;
-  const { id } = req.params;
-
-  Card.findByIdAndUpdate(
-    id,
-    { $addToSet: { likes: owner } },
-    { new: true },
-  )
-    .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
-};
-
-module.exports.removeLike = (req, res) => {
-  const owner = req.user._id;
-  const { id } = req.params;
-
-  Card.findByIdAndUpdate(
-    id,
-    { $pull: { likes: owner } },
-    { new: true },
-  )
-    .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
-};
+// 5dc80f65741599739ab884bb
+// 5dc7dae8ad3f7a2e2dd5b212
