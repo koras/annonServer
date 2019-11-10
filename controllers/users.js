@@ -1,6 +1,14 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const Questions = require('../models/questions');
+const ipAddress = require("ip");
+
+
+//const LanguageDetect = require('languagedetect');
+const osLocale = require('os-locale');
+
+
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -49,43 +57,35 @@ module.exports.login = (req, res) => {
     });
 };
 
+
+
+/**
+ * Здесь надо определить язык браучера и сгенерировать пользователя
+ * 
+ */
 module.exports.createUser = (req, res) => {
-  const {
-    email,
-    name,
-    about,
-    avatar,
-  } = req.body;
+  let ip = ipAddress.address();
 
-  bcrypt.hash(req.body.password, 10)
-    .then((password) => User.create({
-      password,
-      email,
-      name,
-      about,
-      avatar,
-    }))
-    .then((user) => res.status(201).send({
-      _id: user._id, name: user.name, email: user.email, about: user.about, avatar: user.avatar,
-    }))
-    .catch((err) => res.status(400).send({ message: err.message }));
-};
-
-module.exports.patchAccAva = (req, res) => {
-  const { avatar } = req.body;
-
-  User.findById(req.user._id)
+  User.findById(req.body._id)
     .then((user) => {
-      if (user._id == req.user._id) {
-        User.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
-          .then((user) => res.send({ data: user }))
-          .catch((err) => res.status(500).send({ message: err.message }));
-      } else {
-        res.status(401).send({ message: 'No permissions' });
+
+      if (!user) {
+        //  osLocale().then((user) => console.log(user));
+        //    res.status(404).send({ message: 'Такого пользователя не существует' });
+
+        return osLocale()
+          .then(lang => { return { ip: ip, lang: lang }; })
+          .then(dataParam => {
+
+            console.log(dataParam);
+            return User.create(dataParam).then((user) => res.status(200).send(user));
+          });
       }
+      res.send({ data: user });
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => res.status(500).send({ message: `create error :  ${err}` }));
 };
+
 
 module.exports.patchAcc = (req, res) => {
   const { name, about } = req.body;

@@ -1,11 +1,16 @@
 const router = require('express').Router();
 
-const cards = require('./cards');
+//const cards = require('./cards');
 const users = require('./users');
+const questions = require('./questions');
+const answers = require('./answers');
 const emptyUrl = require('./emptyUrl');
 
-router.use('/', cards);
+
+
 router.use('/', users);
+router.use('/', answers);
+router.use('/', questions);
 router.use('*', emptyUrl);
 
 module.exports = router;

@@ -3,64 +3,29 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    validate: {
-      validator: (v) => validator.isEmail(v),
-      message: 'Неправильный формат почты',
-    },
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 8,
-    select: false,
-  },
   name: {
     type: String,
-    minlength: 2,
-    maxlength: 30,
-    required: true,
+    //   // minlength: 2,
+    //   // maxlength: 30,
+    //   required: true,
   },
-  about: {
+  lang: {
     type: String,
     minlength: 2,
-    maxlength: 30,
+    maxlength: 10,
     required: true,
   },
-  avatar: {
+  ip: {
     type: String,
-    validate: {
-      validator(v) {
-        return validator.isURL(v);
-      },
-      message: (props) => `${props.value} Check link pls !`,
-    },
+    minlength: 9,
+    maxlength: 20,
     required: true,
+  },
+  question: {
+    type: Object,
   },
 });
 
-// eslint-disable-next-line func-names
-userSchema.statics.findUserByCredentials = function (email, password) {
-  return this.findOne({ email }).select('+password')
-    .then((user) => {
-      if (!user) {
-        return Promise.reject(new Error('Неправильные почта или пароль 1'));
-      }
-
-      return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            return Promise.reject(new Error('Неправильные почта или пароль 2'));
-          }
-
-          return user;
-        });
-    });
-};
-
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('users', userSchema);
 
 // валидировать ссылки https://mongoosejs.com/docs/validation.html.
