@@ -11,7 +11,7 @@ const {
 
 router.post('/answers/create', createAnswer);
 
-router.get('/answers/question/:id', getAnswersQuestions);
+router.get('/answers/question/:question', getAnswersQuestions);
 
 router.get('/answers', getAnswers);
 

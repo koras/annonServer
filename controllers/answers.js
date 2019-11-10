@@ -25,53 +25,39 @@ module.exports.createAnswer = (req, res) => {
         return osLocale()
           .then((lang) => lang)
           .then((lang) => {
-
             dataParams['lang'] = lang;
-
             console.log('no create  3 ', dataParams);
-            // Object.assign(dataParam, dataParam, dataParams);
-            //   console.log('no create  4 ', dataParam);
-
             return Answers.create(dataParams).then((qResult) => res.status(200).send(qResult));
-
           }).catch((err) => console.log(err));
       } else {
 
-        console.log('no create');
         return res.status(200).send({});
       }
     }).catch((err) => console.log(err));
 
-  // return osLocale()
-  //   .then(lang => { return { lang: lang }; })
-  //   .then(dataParam => {
-
-  //     dataParam['text'] = text;
-  //     dataParam['question'] = question;
-  //     dataParam['owner'] = owner;
-
-  //     // console.log('dataParam 2 ', dataParam);
-
-  //     return Answers.create(dataParam)
-  //       .then((question) => res.status(200)
-  //         .send(question)).catch(err => err);
-  //   });
-
-
-
 };
 
 
+/**
+ * Находим ответы к текущему вопросу
+ * 
+ */
 module.exports.getAnswersQuestions = (req, res) => {
 
-  const { question } = req.id;
-
-
+  const { question } = req.params;
   Answers.find({ question })
-    .then((answers) => res.send({ data: answers }))
-    .catch((err) => res.status(500)
-      .send({ message: err.message }));
+    .then((user) => {
+      if (user) {
+        res.send({ data: user });
+      } else {
+        res.status(404).send({ comment: 'Нет ответов на текущий вопрос' });
+      }
+    })
+    .catch((err) => res.status(404).send({ message: err.message, comment: 'Нет пользователя с таким id' }));
 };
+
+
+
 
 
 module.exports.getAnswers = (req, res) => {
