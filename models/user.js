@@ -3,16 +3,16 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  key: {
+  name: {
     type: String,
-    // minlength: 2,
-    // maxlength: 30,
-    required: true,
+    //   // minlength: 2,
+    //   // maxlength: 30,
+    //   required: true,
   },
   lang: {
     type: String,
     minlength: 2,
-    maxlength: 5,
+    maxlength: 10,
     required: true,
   },
   ip: {
@@ -26,25 +26,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-
-userSchema.statics.findUserByCredentials = function (email, password) {
-  return this.findOne({ email }).select('+password')
-    .then((user) => {
-      if (!user) {
-        return Promise.reject(new Error('Неправильные почта или пароль 1'));
-      }
-
-      return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            return Promise.reject(new Error('Неправильные почта или пароль 2'));
-          }
-
-          return user;
-        });
-    });
-};
-
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('users', userSchema);
 
 // валидировать ссылки https://mongoosejs.com/docs/validation.html.

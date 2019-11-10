@@ -3,6 +3,12 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const ipAddress = require("ip");
 
+
+//const LanguageDetect = require('languagedetect');
+const osLocale = require('os-locale');
+
+
+
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ data: users }))
@@ -59,45 +65,36 @@ module.exports.login = (req, res) => {
 module.exports.createUser = (req, res) => {
   let ip = ipAddress.address();
 
-  console.log(ip);
-
-  const {
-    email,
-    en
-  } = req.body;
-
-  let key = 123123;
-  let lang = 'ru';
-  //  User.create(dataParam)
-
-  const dataParam = {
-    key,
-    lang,
-    ip,
-  };
-
-
-  console.log(req.body);
-
-
   User.findById(req.body._id)
     .then((user) => {
-      // если не нашли пользователя, то создаём пользователя
 
-      //    User.create(dataParam)
-      //     .then((user) => res.send(user));
+      if (!user) {
+        //  osLocale().then((user) => console.log(user));
+        //    res.status(404).send({ message: 'Такого пользователя не существует' });
 
-      if (user._id == req.body._id) {
-        //   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true })
-        //     .then((user) => res.send({ data: user }))
-        //     .catch((err) => res.status(500).send({ message: err.message }));
-      } else {
-        res.status(401).send({ message: 'No permissions' });
+        return osLocale()
+          .then(lang => { return { ip: ip, lang: lang }; })
+          .then(dataParam => {
+
+            console.log(dataParam);
+            return User.create(dataParam).then((user) => res.status(200).send(user));
+          });
       }
+      res.send({ data: user });
+    }).then((user) => {
+      //  console.log('ip', ip);
+      //  console.log('ser', user);
+      //  osLocale().then((user) => console.log(user));
+      //    res.status(404).send({ message: 'Такого пользователя не существует' });
+
+
 
 
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => res.status(500).send({ message: `create error :  ${err}` }));
+
+
+
 
 };
 
