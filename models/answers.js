@@ -1,21 +1,14 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+//const validator = require('validator');
 
-const answers = new mongoose.Schema({
-
-  name: {
-    type: String,
-    minlength: 2,
-    maxlength: 30,
-    required: true,
-  },
+const answersSchema = new mongoose.Schema({
   lang: {
     type: String,
     minlength: 2,
-    maxlength: 5,
+    maxlength: 10,
     required: true,
   },
-  body: {
+  text: {
     type: String,
     minlength: 30,
     maxlength: 500,
@@ -49,4 +42,4 @@ const answers = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('answers', cardSchema);
+module.exports = mongoose.model('answers', answersSchema);
