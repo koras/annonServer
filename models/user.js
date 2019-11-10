@@ -3,24 +3,11 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-
-  name: {
-    type: String,
-    minlength: 2,
-    maxlength: 30,
-    //   required: true,
-  },
   key: {
     type: String,
     // minlength: 2,
     // maxlength: 30,
     required: true,
-  },
-  about: {
-    type: String,
-    minlength: 2,
-    maxlength: 30,
-    //  required: true,
   },
   lang: {
     type: String,
@@ -30,7 +17,7 @@ const userSchema = new mongoose.Schema({
   },
   ip: {
     type: String,
-    minlength: 11,
+    minlength: 9,
     maxlength: 20,
     required: true,
   },
@@ -39,7 +26,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// eslint-disable-next-line func-names
+
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {

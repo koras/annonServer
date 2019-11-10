@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const ipAddress = require("ip");
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -56,26 +57,54 @@ module.exports.login = (req, res) => {
  * 
  */
 module.exports.createUser = (req, res) => {
+  let ip = ipAddress.address();
+
+  console.log(ip);
+
   const {
     email,
-    name,
-    about,
-    avatar,
+    en
   } = req.body;
 
-  bcrypt.hash(req.body.password, 10)
-    .then((password) => User.create({
-      password,
-      email,
-      name,
-      about,
-      avatar,
-    }))
-    .then((user) => res.status(201).send({
-      _id: user._id, name: user.name, email: user.email, about: user.about, avatar: user.avatar,
-    }))
-    .catch((err) => res.status(400).send({ message: err.message }));
+  let key = 123123;
+  let lang = 'ru';
+  //  User.create(dataParam)
+
+  const dataParam = {
+    key,
+    lang,
+    ip,
+  };
+
+
+  console.log(req.body);
+
+
+  User.findById(req.body._id)
+    .then((user) => {
+      // если не нашли пользователя, то создаём пользователя
+
+      //    User.create(dataParam)
+      //     .then((user) => res.send(user));
+
+      if (user._id == req.body._id) {
+        //   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true })
+        //     .then((user) => res.send({ data: user }))
+        //     .catch((err) => res.status(500).send({ message: err.message }));
+      } else {
+        res.status(401).send({ message: 'No permissions' });
+      }
+
+
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
+
 };
+
+
+
+
+
 
 
 
