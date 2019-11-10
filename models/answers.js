@@ -32,9 +32,17 @@ const answersSchema = new mongoose.Schema({
     required: true,
   },
 
-  like: {
-    type: Object,
-  },
+
+
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    default: [],
+  }],
+
+  dislike: [{
+    type: mongoose.Schema.Types.ObjectId,
+    default: [],
+  }],
 
   createdAt: {
     type: Date,

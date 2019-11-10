@@ -41,3 +41,37 @@ module.exports.getQuestions = (req, res) => {
 };
 
 // 5dc80f65741599739ab884bb
+
+// https://github.com/vovainfo/YP.sprint14/blob/develop/controllers/cards.js
+
+// cnавим лайк
+module.exports.likeQuestion = (req, res, next) => {
+  let { id, owner } = req.body;
+  Questions.findByIdAndUpdate(id, { $addToSet: { likes: owner } }, { new: true })
+    .then((card) => res.send(card))
+    .catch((err) => next(console.log(err.message)));
+};
+
+// удаляем лайк
+module.exports.minuslikeQuestion = (req, res, next) => {
+  let { id, owner } = req.body;
+  Questions.findByIdAndUpdate(id, { $pull: { dislike: owner } }, { new: true })
+    .then((card) => res.send(card))
+    .catch((err) => next(console.log(err.message)));
+};
+
+
+// cnавим дизлайк
+module.exports.dislikeQuestion = (req, res, next) => {
+  let { id, owner } = req.body;
+  Questions.findByIdAndUpdate(id, { $addToSet: { dislike: owner } }, { new: true })
+    .then((card) => res.send(card))
+    .catch((err) => next(console.log(err.message)));
+};
+// удаляем дизлайк
+module.exports.minusdislikeQuestion = (req, res, next) => {
+  let { id, owner } = req.body;
+  Questions.findByIdAndUpdate(id, { $pull: { dislike: owner } }, { new: true })
+    .then((card) => res.send(card))
+    .catch((err) => next(console.log(err.message)));
+};

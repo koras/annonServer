@@ -18,9 +18,7 @@ module.exports.createAnswer = (req, res) => {
 
   Answers.find(findUniq)
     .then((result) => {
-
       if (!result['0']) {
-
         console.log('reate 1');
         return osLocale()
           .then((lang) => lang)
