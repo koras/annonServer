@@ -1,6 +1,5 @@
 const router = require('express').Router();
 
-//const cards = require('./cards');
 const users = require('./users');
 const questions = require('./questions');
 const answers = require('./answers');
