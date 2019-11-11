@@ -11,9 +11,6 @@ const {
 } = require('../controllers/questions');
 
 
-
-
-
 router.post('/questions/create', createQuestion);
 router.get('/questions', getQuestions);
 
@@ -25,6 +22,3 @@ router.post('/questions/dislike/add', dislikeQuestion);
 
 
 module.exports = router;
-
-
-

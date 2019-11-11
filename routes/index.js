@@ -6,7 +6,6 @@ const answers = require('./answers');
 const emptyUrl = require('./emptyUrl');
 
 
-
 router.use('/', users);
 router.use('/', answers);
 router.use('/', questions);
