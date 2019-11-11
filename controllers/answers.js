@@ -65,5 +65,40 @@ module.exports.getAnswers = (req, res) => {
       .send({ message: err.message }));
 };
 
+
+
+// cnавим лайк
+module.exports.likeAnswers = (req, res, next) => {
+  const { id, owner } = req.body;
+  Answers.findByIdAndUpdate(id, { $addToSet: { likes: owner } }, { new: true })
+    .then((card) => res.send(card))
+    .catch((err) => next(console.log(err.message)));
+};
+
+// удаляем лайк
+module.exports.minuslikeAnswers = (req, res, next) => {
+  const { id, owner } = req.body;
+  Answers.findByIdAndUpdate(id, { $pull: { like: owner } }, { new: true })
+    .then((card) => res.send(card))
+    .catch((err) => next(console.log(err.message)));
+};
+
+
+// cnавим дизлайк
+module.exports.dislikeAnswers = (req, res, next) => {
+  const { id, owner } = req.body;
+  Answers.findByIdAndUpdate(id, { $addToSet: { dislike: owner } }, { new: true })
+    .then((card) => res.send(card))
+    .catch((err) => next(console.log(err.message)));
+};
+// удаляем дизлайк
+module.exports.minusdislikeAnswers = (req, res, next) => {
+  const { id, owner } = req.body;
+  Answers.findByIdAndUpdate(id, { $pull: { dislike: owner } }, { new: true })
+    .then((card) => res.send(card))
+    .catch((err) => next(console.log(err.message)));
+};
+
+
 // 5dc80f65741599739ab884bb
 // 5dc7dae8ad3f7a2e2dd5b212

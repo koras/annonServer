@@ -10,7 +10,7 @@ const {
   patchAcc,
 } = require('../controllers/users');
 
-router.post('/users/signup', createUser);
+router.post('/users/create', createUser);
 router.post('/signin', login);
 
 router.get('/users', auth, getUsers);

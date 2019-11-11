@@ -46,7 +46,7 @@ module.exports.getQuestions = (req, res) => {
 
 // cnавим лайк
 module.exports.likeQuestion = (req, res, next) => {
-  let { id, owner } = req.body;
+  const { id, owner } = req.body;
   Questions.findByIdAndUpdate(id, { $addToSet: { likes: owner } }, { new: true })
     .then((card) => res.send(card))
     .catch((err) => next(console.log(err.message)));
@@ -54,8 +54,8 @@ module.exports.likeQuestion = (req, res, next) => {
 
 // удаляем лайк
 module.exports.minuslikeQuestion = (req, res, next) => {
-  let { id, owner } = req.body;
-  Questions.findByIdAndUpdate(id, { $pull: { dislike: owner } }, { new: true })
+  const { id, owner } = req.body;
+  Questions.findByIdAndUpdate(id, { $pull: { like: owner } }, { new: true })
     .then((card) => res.send(card))
     .catch((err) => next(console.log(err.message)));
 };
@@ -63,14 +63,14 @@ module.exports.minuslikeQuestion = (req, res, next) => {
 
 // cnавим дизлайк
 module.exports.dislikeQuestion = (req, res, next) => {
-  let { id, owner } = req.body;
+  const { id, owner } = req.body;
   Questions.findByIdAndUpdate(id, { $addToSet: { dislike: owner } }, { new: true })
     .then((card) => res.send(card))
     .catch((err) => next(console.log(err.message)));
 };
 // удаляем дизлайк
 module.exports.minusdislikeQuestion = (req, res, next) => {
-  let { id, owner } = req.body;
+  const { id, owner } = req.body;
   Questions.findByIdAndUpdate(id, { $pull: { dislike: owner } }, { new: true })
     .then((card) => res.send(card))
     .catch((err) => next(console.log(err.message)));
