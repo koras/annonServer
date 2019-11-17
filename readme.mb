@@ -1,1 +1,51 @@
+
+fuser -k -n tcp 3000
+
 npm install languagedetect --save
+npm install os-locale
+
+
+ https://github.com/terentevartem/news-explorer-api/blob/level-1/controllers/users.js
+
+ 
+/users/create
+Создание пользователя
+
+/answers/create
+Создание ответа к вопросу
+
+/answers/question/:question
+Получение ответов по вопросу
+
+/questions/create
+Создание вопроса
+
+/questions
+Получение списка вопросов
+
+/question/:question
+Получение вопроса
+
+/questions/like/minus
+Удаление лайка к вопросу
+
+/questions/like/add
+Добавление лайка к вопросу
+
+/questions/dislike/minus
+Удаление дизлайка к вопросу
+
+/questions/dislike/add
+Добавление дизлайка к вопросу
+
+/answers/like/minus
+Удаление лайка к ответу 
+
+/answers/like/add
+Добавление лайка к ответу 
+
+/answers/dislike/minus
+Удаление дизлайка к ответу
+
+/answers/dislike/add
+Добавление дизлайка к ответу

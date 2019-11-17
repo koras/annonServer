@@ -6,17 +6,19 @@ const questionsSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 2,
-    maxlength: 30,
+    maxlength: 100,
     required: true,
   },
   lang: {
     type: String,
     minlength: 2,
-    maxlength: 5,
+    maxlength: 6,
     required: true,
   },
   body: {
     type: String,
+    minlength: 100,
+    maxlength: 2000,
     // validate: {
     //   validator(v) {
     //     return validator.isURL(v);

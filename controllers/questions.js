@@ -22,13 +22,6 @@ module.exports.createQuestion = (req, res) => {
         .then((question) => res.status(200)
           .send(question));
     });
-
-
-  // Questions.create({ name, link, owner })
-  //   .then((card) => res.status(201).send({ data: card }))
-  //   .catch((err) => res.status(400).send({ message: err.message }));
-
-
 };
 
 
@@ -39,6 +32,25 @@ module.exports.getQuestions = (req, res) => {
     .catch((err) => res.status(500)
       .send({ message: err.message }));
 };
+
+
+
+module.exports.getQuestion = async (req, res, next) => {
+  let user;
+  try {
+    user = await User.findById(req.user._id);
+    if (!user) {
+      return next(new NotFoundError(noUser));
+    }
+  } catch (e) {
+    return next(new BadRequestError(invalidRequest));
+  }
+  res.send(user);
+};
+
+
+
+
 
 // 5dc80f65741599739ab884bb
 
