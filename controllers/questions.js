@@ -13,7 +13,6 @@ module.exports.createQuestion = (req, res) => {
   return osLocale()
     .then(lang => { return { lang: lang }; })
     .then(dataParam => {
-
       dataParam['name'] = name;
       dataParam['body'] = body;
       dataParam['owner'] = owner;
@@ -33,24 +32,19 @@ module.exports.getQuestions = (req, res) => {
       .send({ message: err.message }));
 };
 
+module.exports.getQuestion = (req, res) => {
+  const { question } = req.params;
 
-
-module.exports.getQuestion = async (req, res, next) => {
-  let user;
-  try {
-    user = await User.findById(req.user._id);
-    if (!user) {
-      return next(new NotFoundError(noUser));
-    }
-  } catch (e) {
-    return next(new BadRequestError(invalidRequest));
-  }
-  res.send(user);
+  Questions.findById(question)
+    .then((topic) => {
+      if (topic) {
+        res.send({ data: topic });
+      } else {
+        res.status(404).send({ comment: 'Вопрос не найден' });
+      }
+    })
+    .catch((err) => res.status(500).send({ message: `create error :  ${err}` }));
 };
-
-
-
-
 
 // 5dc80f65741599739ab884bb
 
