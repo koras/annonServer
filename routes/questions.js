@@ -4,6 +4,7 @@ const router = require('express').Router();
 const {
   createQuestion,
   getQuestions,
+  getQuestionsSearch,
   getQuestion,
   likeQuestion,
   minuslikeQuestion,
@@ -13,9 +14,9 @@ const {
 
 
 router.post('/questions/create', createQuestion);
-router.get('/questions', getQuestions);
+router.post('/questions/search', getQuestionsSearch);
+router.post('/questions', getQuestions);
 router.get('/question/:question', getQuestion);
-
 
 
 router.post('/questions/like/minus', minuslikeQuestion);

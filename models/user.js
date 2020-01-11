@@ -21,11 +21,49 @@ const userSchema = new mongoose.Schema({
     maxlength: 20,
     required: true,
   },
+
+  keyMath: {
+    type: Number,
+    minlength: 5,
+    maxlength: 7,
+    default: 0,
+  },
+  registartionStep: {
+    type: Number,
+    minlength: 5,
+    maxlength: 7,
+    default: 0,
+  },
+
+  reputation: {
+    type: Number,
+    minlength: 5,
+    maxlength: 7,
+    default: 10,
+  },
+
+
+  likesQuestions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    default: [],
+  }],
+  disLikeQuestions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    default: [],
+  }],
+  likesAnswers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    default: [],
+  }],
+
+  disLikeAnswers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    default: [],
+  }],
+
   question: {
     type: Object,
   },
 });
 
 module.exports = mongoose.model('users', userSchema);
-
-// валидировать ссылки https://mongoosejs.com/docs/validation.html.

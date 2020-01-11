@@ -1,20 +1,34 @@
 const Answers = require('../models/answers');
+const Questions = require('../models/questions');
 const osLocale = require('os-locale');
+var ObjectId = require('mongodb').ObjectID;
 
 
 /**
  * Добавление вопроса
- * 
+ *
+ *
  */
 module.exports.createAnswer = (req, res) => {
 
   console.log('createAnswer');
 
-  const owner = req.body._id;
-  const { text, question } = req.body;
+  const { text, question, owner } = req.body;
   const dataParams = { text, question, owner };
-
   const findUniq = { owner, question };
+
+  const findQuestions = { _id: ObjectId(question) };
+
+  Questions.find(findQuestions);
+
+
+
+  Questions.update(findQuestions, { answers: 15555 });
+  Questions.update(findQuestions, { $set: { answers: 6666 } });
+
+  Questions.update(findQuestions, { $push: { answersUsers: owner } });
+  Questions.updateOne(findQuestions, { $inc: { answers: 1221 } });
+
 
   Answers.find(findUniq)
     .then((result) => {
@@ -24,13 +38,25 @@ module.exports.createAnswer = (req, res) => {
           .then((lang) => lang)
           .then((lang) => {
             dataParams['lang'] = lang;
-            console.log('no create  3 ', dataParams);
-            return Answers.create(dataParams).then((qResult) => res.status(200).send(qResult));
-          }).catch((err) => console.log(err));
-      } else {
+            console.log('send answer');
+            return Answers.create(dataParams)
+              .then(
+                (qResult) => {
+                  console.log('update', question);
+                  Questions.updateOne(findQuestions, { $inc: { answers: 1 }, $push: { answersUsers: owner } }, function (err, res) {
+                    if (err) throw console.log("err", err);
+                    console.log("1 document updated");
+                    console.log(res);
 
-        return res.status(200).send({});
+                  });
+                  res.status(200).send(qResult);
+
+                }
+              );
+          }).catch((err) => console.log(err));
       }
+
+      return res.status(200).send({ published: false });
     }).catch((err) => console.log(err));
 
 };
@@ -38,7 +64,7 @@ module.exports.createAnswer = (req, res) => {
 
 /**
  * Находим ответы к текущему вопросу
- * 
+ *
  */
 module.exports.getAnswersQuestions = (req, res) => {
 
@@ -54,7 +80,26 @@ module.exports.getAnswersQuestions = (req, res) => {
     .catch((err) => res.status(404).send({ message: err.message, comment: 'Нет пользователя с таким id' }));
 };
 
+/**
+ * Получаем все ответы определённого пользователя
+ *
+ *
+ */
+module.exports.getAnswersMy = (req, res) => {
+  console.log(req.params);
+  const { owner } = req.body;
 
+  Answers.find({ owner })
+    .populate('question')
+    .then((user) => {
+      if (user) {
+        res.send({ data: user });
+      } else {
+        res.status(404).send({ comment: 'Нет ответов на текущий вопрос' });
+      }
+    })
+    .catch((err) => res.status(404).send({ message: err.message, comment: 'Нет пользователя с таким id' }));
+};
 
 
 

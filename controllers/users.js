@@ -5,14 +5,9 @@ const Questions = require('../models/questions');
 const ipAddress = require("ip");
 const osLocale = require('os-locale');
 
-
-
-
-
-
 /**
  * Здесь надо определить язык браучера и сгенерировать пользователя
- * 
+ *
  */
 module.exports.createUser = (req, res) => {
   let ip = ipAddress.address();
@@ -22,13 +17,15 @@ module.exports.createUser = (req, res) => {
 
       if (!user) {
         return osLocale()
-          .then(lang => {
-            return { "ip": ip, "lang": lang };
+          .then(langUser => {
+            return { "ip": ip, "lang": langUser };
           })
           .then(dataParam => {
 
-            console.log(dataParam);
-            return User.create(dataParam).then((user) => res.status(200).send(user));
+            console.log('dataParamd', dataParam);
+            return User.create(dataParam)
+              .then((user) => res.status(200)
+                .send(user));
           });
       }
       res.send({ data: user });

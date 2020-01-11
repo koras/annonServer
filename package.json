@@ -6,7 +6,7 @@
   "scripts": {
     "editorconfig": "editorconfig-cli",
     "lint": "./node_modules/eslint/bin/eslint.js app.js routes",
-    "start": "node app.js",
+    "start": "PORT=2001 node app.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],

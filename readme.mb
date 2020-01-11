@@ -7,7 +7,7 @@ npm install os-locale
 
  https://github.com/terentevartem/news-explorer-api/blob/level-1/controllers/users.js
 
- 
+
 /users/create
 Создание пользователя
 
@@ -39,13 +39,26 @@ npm install os-locale
 Добавление дизлайка к вопросу
 
 /answers/like/minus
-Удаление лайка к ответу 
+Удаление лайка к ответу
 
 /answers/like/add
-Добавление лайка к ответу 
+Добавление лайка к ответу
 
 /answers/dislike/minus
 Удаление дизлайка к ответу
 
 /answers/dislike/add
 Добавление дизлайка к ответу
+
+
+
+> db.questions.dropIndex("text_text_question_text")
+{ "nIndexesWas" : 2, "ok" : 1 }
+> db.questions.createIndex({ body : "text" , name : "text"})
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+> db.questions.aggregate([{ $match:  { $text: { $search: "свое" } }}] );

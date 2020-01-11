@@ -5,7 +5,7 @@ const {
   createAnswer,
   getAnswersQuestions,
   getAnswers,
-
+  getAnswersMy,
   dislikeAnswers,
   minusdislikeAnswers,
   minuslikeAnswers,
@@ -15,6 +15,7 @@ const {
 
 router.post('/answers/create', createAnswer);
 router.get('/answers/question/:question', getAnswersQuestions);
+router.post('/answers/my', getAnswersMy);
 router.get('/answers', getAnswers);
 
 router.post('/answers/like/minus', minuslikeAnswers);

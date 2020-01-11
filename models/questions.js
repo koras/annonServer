@@ -5,8 +5,8 @@ const questionsSchema = new mongoose.Schema({
 
   name: {
     type: String,
-    minlength: 2,
-    maxlength: 100,
+    minlength: 5,
+    maxlength: 150,
     required: true,
   },
   lang: {
@@ -17,8 +17,8 @@ const questionsSchema = new mongoose.Schema({
   },
   body: {
     type: String,
-    minlength: 100,
-    maxlength: 2000,
+    minlength: 5,
+    maxlength: 1500,
     // validate: {
     //   validator(v) {
     //     return validator.isURL(v);
@@ -27,6 +27,10 @@ const questionsSchema = new mongoose.Schema({
     //  },
     required: true,
   },
+  delete: {
+    type: Boolean,
+    default: false,
+  },
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -34,16 +38,28 @@ const questionsSchema = new mongoose.Schema({
     required: true,
   },
 
+  answers: {
+    type: Number,
+    default: 0,
+  },
 
-  likes: [{
+
+  answersUsers: [{
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'users',
     default: [],
   }],
 
-  dislike: [{
-    type: mongoose.Schema.Types.ObjectId,
-    default: [],
-  }],
+
+  likes: {
+    type: Number,
+    default: 0,
+  },
+
+  dislike: {
+    type: Number,
+    default: 0,
+  },
 
   createdAt: {
     type: Date,

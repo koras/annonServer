@@ -10,7 +10,7 @@ const answersSchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    minlength: 30,
+    minlength: 5,
     maxlength: 500,
     //  validate: {
     //    validator(v) {
@@ -19,6 +19,15 @@ const answersSchema = new mongoose.Schema({
     //  message: (props) => `${props.value} Check link pls !`,
     //  },
     required: true,
+  },
+
+  delete: {
+    type: Boolean,
+    default: false,
+  },
+  published: {
+    type: Boolean,
+    default: true,
   },
 
   owner: {
@@ -32,17 +41,15 @@ const answersSchema = new mongoose.Schema({
     required: true,
   },
 
+  likes: {
+    type: Number,
+    default: 0,
+  },
 
-
-  likes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    default: [],
-  }],
-
-  dislike: [{
-    type: mongoose.Schema.Types.ObjectId,
-    default: [],
-  }],
+  dislike: {
+    type: Number,
+    default: 0,
+  },
 
   createdAt: {
     type: Date,
