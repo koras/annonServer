@@ -13,7 +13,7 @@ const cookieParser = require('cookie-parser');
 
 const router = require('./routes');
 
-const { PORT = 3000 } = process.env;
+const { PORT } = process.env;
 const app = express();
 
 /* eslint-disable quotes */
