@@ -51,7 +51,7 @@ module.exports.getQuestions = (req, res) => {
       Questions.find({ answersUsers: { '$nin': [ObjectId(owner)] }, owner: { '$nin': [ObjectId(owner)] } })
         .skip(0)
         // .sort({ 'date': -1 })
-        .limit(250)
+        .limit(30)
         .sort({ "answers": 1 })
         .then(
           (cards) => {
@@ -77,29 +77,13 @@ module.exports.getQuestions = (req, res) => {
 };
 
 module.exports.getQuestionsSearch = (req, res) => {
-  //  db.questions.aggregate([{ $match:  { $text: { $search: "свое" } }}] );
-  const total = 10;
-  // const limit = 0;
-  const { text } = req.body;
-  let limit = req.body.limit;
 
-  //const search = { $or: [{ body: "/" + text + "/i" }, { name: /text/i }] };
-  //db.questions.find( { $or: [{ "body" : { $regex:  "вопрос",  $options:"i"} }, { "name" : { $regex:  "вопрос",  $options:"i"} }] });
-
+  const { text, limit } = req.body;
   const search = { $or: [{ "body": { $regex: text, $options: "i" } }, { "name": { $regex: text, $options: "i" } }] };
-
-  console.log('text', text);
-  console.log(text);
-  console.log(search);
-
   return Questions.find(search)
-    //  .find({ $text: { $search: text } })
-    ///db.questions.find({ $text: { $search: "свое" } });
-    //  .find({ name: { $regex: text, $options: "i" } })
-    //  .find({ ‘$**’: `/.*${text}.*/`, $options: "i" })
-    //  .skip(0)
-    // .sort({ 'date': -1 })
-    //  .limit(total)
+    .skip(limit)
+    .sort({ 'date': -1 })
+    .limit(total)
     .then((cards) => res.send({ data: cards }))
     .catch((err) => res.status(500)
       .send({ message: err.message }));
