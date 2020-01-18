@@ -3,6 +3,7 @@ const Questions = require('../models/questions');
 const osLocale = require('os-locale');
 var ObjectId = require('mongodb').ObjectID;
 
+const range = 20;
 
 /**
  * Добавление вопроса
@@ -87,10 +88,13 @@ module.exports.getAnswersQuestions = (req, res) => {
  */
 module.exports.getAnswersMy = (req, res) => {
   console.log(req.params);
-  const { owner } = req.body;
+  const { owner, limit } = req.body;
 
   Answers.find({ owner })
     .populate('question')
+    .skip(limit)
+    // .sort({ 'date': -1 })
+    .limit(range)
     .then((user) => {
       if (user) {
         res.send({ data: user });

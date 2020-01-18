@@ -11,7 +11,7 @@ const answersSchema = new mongoose.Schema({
   text: {
     type: String,
     minlength: 5,
-    maxlength: 500,
+    maxlength: 1500,
     //  validate: {
     //    validator(v) {
     //   return validator.isURL(v);
