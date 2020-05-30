@@ -13,6 +13,12 @@ npm install os-locale
 
 /answers/create
 Создание ответа к вопросу
+       owner: "5e9cce75749ad72fae64a6b4"
+       question: "5e1e38cf749ad72fae64a642"
+       text: "df gsdf gdfs gsdf gsdf"
+
+
+
 
 /answers/question/:question
 Получение ответов по вопросу
